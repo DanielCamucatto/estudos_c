@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  cs50:
+    build: .
+    container_name: cs50_c
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    tty: true
