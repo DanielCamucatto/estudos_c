@@ -14,5 +14,6 @@
 
 int main(void){
 
-    
+    int num = get_int("Digite um número: "); 
+    printf("Você digitou %i\n", num);
 }

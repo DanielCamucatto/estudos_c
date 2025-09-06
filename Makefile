@@ -1,20 +1,19 @@
-# Compila todos os arquivos .c no diretório
-SOURCES := $(wildcard *.c)
-TARGETS := $(SOURCES:.c=)
+# Compilador e flags
 CC := gcc
 CFLAGS := -Wall -Wextra -g
 
-all: $(TARGETS)
+# Subdiretórios com programas C
+SUBDIRS := cs50/helloword cs50/ex-mario
 
-%: %.c
-	$(CC) $(CFLAGS) $< -o $@
+# Objetivo padrão: compila todos os programas
+all:
+	@for dir in $(SUBDIRS); do $(MAKE) -C $$dir; done
 
+# Limpa todos os executáveis
 clean:
-	rm -f $(TARGETS)
+	@for dir in $(SUBDIRS); do $(MAKE) clean -C $$dir; done
 
-.PHONY: all clean start stop build logs
-
-# Comandos para Docker Compose
+# Comandos Docker Compose
 start:
 	docker compose up -d
 
@@ -26,3 +25,15 @@ build:
 
 logs:
 	docker compose logs -f
+
+# Roda o programa mario
+mario:
+ifeq ($(shell test -f /.dockerenv && echo -n true),true)
+	@echo "--- Rodando ex-mario (dentro do container) ---"
+	@./cs50/ex-mario/ex-mario
+else
+	@echo "--- Rodando ex-mario (via docker exec) ---"
+	@docker exec -it cs50_c ./cs50/ex-mario/ex-mario
+endif
+
+.PHONY: all clean start stop build logs mario
