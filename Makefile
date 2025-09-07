@@ -29,11 +29,14 @@ logs:
 # Roda o programa mario
 mario:
 ifeq ($(shell test -f /.dockerenv && echo -n true),true)
+	# Dentro do container: compila e depois roda
+	$(MAKE) all
 	@echo "--- Rodando ex-mario (dentro do container) ---"
 	@./cs50/ex-mario/ex-mario
 else
-	@echo "--- Rodando ex-mario (via docker exec) ---"
-	@docker exec -it cs50_c ./cs50/ex-mario/ex-mario
+	# Fora do container: delega o comando 'make mario' para o container
+	@echo "--- Disparando 'make mario' dentro do container ---"
+	@docker exec -it cs50_c make mario
 endif
 
 .PHONY: all clean start stop build logs mario
