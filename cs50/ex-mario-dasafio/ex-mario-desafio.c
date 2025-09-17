@@ -116,5 +116,27 @@ int main(void){
     }
     while(num < 1 || num > 8);
 
+    // laço que define o tamanho da torre
+
+    for(int torre = 0; torre < num; torre++){
+
+        //laço que cria espacamento entre as colunas
+        for(int coluna = 0; coluna < num - coluna; coluna++){
+
+            //laço que define o espacamento
+            for(int space = 0; space < num - torre - 1; space++){
+                printf(" ");
+            }
+
+            //laço que define a linha
+            for(int linha = 0; linha <= torre; linha++){
+                printf("#");
+             }
+
+            printf(" ");
+        }
+
+        printf("\n");
+    }
     
 }
